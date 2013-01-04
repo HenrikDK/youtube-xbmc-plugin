@@ -1,0 +1,22 @@
+{
+   "background_page": "background.html",
+   "content_scripts": [ {
+      "exclude_globs": [ ],
+      "include_globs": [ "*" ],
+      "js": [ "script.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_idle"
+   } ],
+   "permissions": [
+      "tabs",
+      "<all_urls>"
+   ],
+   "converted_from_user_script": true,
+   "description": "Control XBMC's YouTube plugin.",
+   "minimum_chrome_version": "13",
+   "key": "YKe14wmHa8KrJZHwf4FDYiXz6EydZQRZKLJtI0942rU=",
+   "name": "YouTube XBMC Control",
+   "options_page": "options.html",
+   "description": "Play Youtube videos on your TV using XBMC",
+   "version": "0.5"
+}

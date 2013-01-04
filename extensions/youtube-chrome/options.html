@@ -1,0 +1,56 @@
+<html>
+<head><title>YouTube XBMC Extension</title><link rel="stylesheet" type="text/css" href="styles.css" /></head>
+<script type="text/javascript">
+
+// Saves options to localStorage.
+function save_options() {
+  window.localStorage["xbmc_youtube_host"] = document.getElementById("xbmc_youtube_host").value;
+  window.localStorage["xbmc_youtube_path"] = document.getElementById("xbmc_youtube_path").value;
+  window.localStorage["xbmc_autoplay"] = document.getElementById("xbmc_autoplay").checked;
+
+  // Update status to let user know options were saved.
+  var status = document.getElementById("status");
+  status.innerHTML = "Saved.";
+  setTimeout(function() {status.innerHTML = "";}, 1500);
+}
+
+// Restores select box state to saved value from localStorage.
+function restore_options() {
+    if (window.localStorage["xbmc_youtube_host"]) {
+		document.getElementById("xbmc_youtube_host").value = window.localStorage["xbmc_youtube_host"];
+    } else {
+                document.getElementById("xbmc_youtube_host").value = "username:password@localhost:8080";
+    }
+    if (window.localStorage["xbmc_youtube_path"]) {
+		document.getElementById("xbmc_youtube_path").value = window.localStorage["xbmc_youtube_path"];
+    } else {
+                document.getElementById("xbmc_youtube_path").value = "plugin.video.youtube";
+    }
+    if (window.localStorage["xbmc_autoplay"]) {
+		document.getElementById("xbmc_autoplay").checked = window.localStorage["xbmc_autoplay"]  == "true";
+    } else {
+                document.getElementById("xbmc_autoplay").checked = false;
+    }
+}
+
+</script>
+
+<body onload="restore_options()">
+<div id="wrapper">
+<b>Enter the connections details</b>
+</br></br>
+Please set the XBMC Host in username:password@host:port format:</br>
+<input id="xbmc_youtube_host" type="text" size="40" name="xbmc_youtube_host"><br>
+Please set the XBMC Path. Default: (plugin.video.youtube)<br />
+<input id="xbmc_youtube_path" type="text" size="40" name="xbmc_youtube_path"><br>
+<input id="xbmc_autoplay" type="checkbox" size="40" name="xbmc_autoplay">&nbsp;Enable autoplay<br />
+</br>
+
+<button class= "savebtn" onclick="save_options()">Save</button>
+<span id="status"></span>
+
+</br><br />
+<a href="http://forum.xbmc.org/showthread.php?t=79487">Support Thread</a>
+</div>
+</body>
+</html>
