@@ -3,7 +3,7 @@ import nose
 import BaseTestCase
 from mock import Mock, patch
 import sys
-from YouTubeStorage import YouTubeStorage 
+from YouTubeStorage import YouTubeStorage
 
 
 class TestYouTubeStorage(BaseTestCase.BaseTestCase):
