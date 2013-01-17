@@ -46,37 +46,6 @@ class TestYouTubeStorage(BaseTestCase.BaseTestCase):
 
         assert(result == "my_result")
 
-    def test_getStoredArtists_should_call_retrieve_to_get_list_of_artists(self):
-        storage = YouTubeStorage()
-        storage.retrieve = Mock()
-        storage.retrieve.return_value = []
-        #storage.retrieve.return_value = [("some_title", "some_artist")]
-        
-        storage.getStoredArtists({"store": "somestore"})
-        
-        storage.retrieve.assert_called_with({"store": "somestore"})
-        
-    def test_getStoredArtists_should_call_retrieve_to_get_artist_thumbnails(self):
-        storage = YouTubeStorage()
-        storage.retrieve = Mock()
-        storage.retrieve.return_value = [("some_title", "some_artist")]
-        
-        storage.getStoredArtists({"path": "some_path", "store": "somestore"})
-        
-        storage.retrieve.assert_called_with({"path": "some_path", "store": "somestore"}, "thumbnail", {'artist': 'some_artist', 'Title': 'some_title', 'scraper': 'music_artist', 'path': "some_path", 'thumbnail': [('some_title', 'some_artist')], 'icon': 'music'})
-        
-    def test_getStoredArtists_should_return_proper_list_structure(self):
-        storage = YouTubeStorage()
-        storage.retrieve = Mock()
-        storage.retrieve.return_value = [("some_title", "some_artist")]
-        
-        (result, status) = storage.getStoredArtists({"path": "some_path", "store": "somestore"})
-        assert(result[0]["artist"] == "some_artist")
-        assert(result[0]["Title"] == "some_title")
-        assert(result[0]["scraper"] == "music_artist")
-        assert(result[0].has_key("icon"))
-        assert(result[0].has_key("thumbnail"))
-
     def test_getStoredSearches_should_call_retrieve_to_get_searches(self):
         storage = YouTubeStorage()
         storage.retrieveSettings = Mock()
@@ -548,21 +517,7 @@ class TestYouTubeStorage(BaseTestCase.BaseTestCase):
         result = storage._getThumbnailStorageKey({"some_param": "something"}, {"search": "some_search"})
         
         assert(result == "disco_search_some_search_thumb")
-        
-    def test_getThumbnailStorageKey_should_return_correct_key_for_artist_path(self):
-        storage = YouTubeStorage()
-        
-        result = storage._getThumbnailStorageKey({"artist": "some_artist"})
-        
-        assert(result == "artist_some_artist_thumb")
-        
-    def test_getThumbnailStorageKey_should_return_correct_key_for_artist_item(self):
-        storage = YouTubeStorage()
-        
-        result = storage._getThumbnailStorageKey({}, {"artist": "some_artist"})
-        
-        assert(result == "artist_some_artist_thumb")
-        
+
     def test_getThumbnailStorageKey_should_return_correct_key_for_user_feed_path(self):
         storage = YouTubeStorage()
         
@@ -661,13 +616,6 @@ class TestYouTubeStorage(BaseTestCase.BaseTestCase):
         
         assert(result == "s_music_category_some_category")
 
-    def test_getResultSetStorageKey_should_return_correct_key_for_music_artist_path(self):
-        storage = YouTubeStorage()
-        
-        result = storage._getResultSetStorageKey({"scraper": "music_artist", "artist": "some_artist"})
-        
-        assert(result == "s_music_artist_some_artist")
-
     def test_getResultSetStorageKey_should_return_correct_key_for_disco_search_path(self):
         storage = YouTubeStorage()
         
@@ -681,13 +629,6 @@ class TestYouTubeStorage(BaseTestCase.BaseTestCase):
         result = storage._getResultSetStorageKey({"scraper": "categories", "category": "some_category"})
         
         assert(result == "s_categories_category_some_category")
-
-    def test_getResultSetStorageKey_should_return_correct_key_for_for_show_scraper(self):
-        storage = YouTubeStorage()
-        
-        result = storage._getResultSetStorageKey({"scraper": "show", "show": "some_show"})
-        
-        assert(result == "s_show_some_show_season_0")
 
     def test_getResultSetStorageKey_should_return_correct_key_for_playlist_path(self):
         storage = YouTubeStorage()
