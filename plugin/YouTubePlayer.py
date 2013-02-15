@@ -21,7 +21,7 @@ import urllib
 import cgi
 try: import simplejson as json
 except ImportError: import json
-
+import itertools, urlparse
 
 class YouTubePlayer():
     fmt_value = {
@@ -296,7 +296,7 @@ class YouTubePlayer():
         found = False
 
         for line in data.split("\n"):
-            if line.strip().startswith("var swf = \""):
+            if line.strip().startswith("yt.playerConfig = "):
                 found = True
                 p1 = line.find("=")
                 p2 = line.rfind(";")
@@ -307,12 +307,8 @@ class YouTubePlayer():
 
         if found:
             data = json.loads(data)
-            data = data[data.find("flashvars"):]
-            data = data[data.find("\""):]
-            data = data[:1 + data[1:].find("\"")]
+            flashvars = data["args"]
 
-            for k, v in cgi.parse_qs(data).items():
-                flashvars[k] = v[0]
         self.common.log(u"flashvars: " + repr(flashvars), 2)
         return flashvars
 
