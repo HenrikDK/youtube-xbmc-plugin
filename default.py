@@ -29,13 +29,13 @@ except ImportError:
     import xbmcvfsdummy as xbmcvfs
 
 # plugin constants
-version = "3.4.0"
-plugin = "YouTube Beta-" + version
+version = "3.4.2"
+plugin = "YouTube-" + version
 author = "TheCollective"
 url = "www.xbmc.com"
 
 # xbmc hooks
-settings = xbmcaddon.Addon(id='plugin.video.youtube.beta')
+settings = xbmcaddon.Addon(id='plugin.video.youtube')
 language = settings.getLocalizedString
 dbg = settings.getSetting("debug") == "true"
 dbglevel = 3
