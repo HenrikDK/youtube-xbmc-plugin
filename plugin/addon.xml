@@ -118,5 +118,6 @@ Raadpleeg de lokale wetgeving voordat u deze plugin installeert.</disclaimer>
     <disclaimer lang="th">บางส่วนจากส่วนขยายนี้อาจไม่ถูกต้องตามกฏหมายในประเทศของคุณ กรุณาตรวจสอบกฏหมายในประเทศของคุณก่อนทำการติดตั้ง</disclaimer>
     <disclaimer lang="zh">这个插件的某些内容可能不符合你所在国家的法律规定 - 请在在安装前确认符合当地法律。</disclaimer>
     <platform>all</platform>
+    <language>en</language>
   </extension>
 </addon>
