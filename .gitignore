@@ -18,6 +18,9 @@ develop-eggs
 lib
 lib64
 
+# Idea
+.idea
+
 # Installer logs
 pip-log.txt
 
