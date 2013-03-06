@@ -16,6 +16,7 @@
 [B]Version 4.4.3[/B]
 - Fixed login
 
+
 [B]Version 3.4.2[/B]
 - Fixed playback bug cause by youtube site changes
 - Fixed bug when using unicode characters in search
