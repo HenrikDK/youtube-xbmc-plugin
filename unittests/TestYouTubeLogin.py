@@ -371,7 +371,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         
         result = login._httpLogin({"new":"true"})
         
-        login._fillLoginInfo.assert_called_with("somePage")
+        login._fillLoginInfo.assert_called_with({'content': 'somePage', 'status': 200})
 
     def test_httpLogin_should_call_fetchPage_with_proper_fetch_options_if_fillLoginInfo_succeded(self):
         sys.modules["__main__"].core._findErrors.return_value = False
@@ -385,7 +385,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         
         result = login._httpLogin({"new":"true"})
         
-        login._fillLoginInfo.assert_called_with("somePage")
+        login._fillLoginInfo.assert_called_with({'content': 'somePage', 'status': 200, 'location': 'here'})
         assert(sys.modules["__main__"].core._fetchPage.call_count == 2)
         sys.modules["__main__"].core._fetchPage.assert_called_with({'no-language-cookie': 'true', 'url_data': {'some_key': 'some_value'}, 'referer': 'here', 'link': 'someURL', 'hidden': 'true'})
 	
@@ -561,7 +561,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].common.parseDOM.return_value = ""
         login = YouTubeLogin()
         
-        result = login._fillLoginInfo("new")
+        result = login._fillLoginInfo({"content": "new", "new_url": "url"})
 
         assert(sys.modules["__main__"].common.parseDOM.call_count > 0)
 
@@ -573,7 +573,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].common.parseDOM.return_value = ""
         login = YouTubeLogin()
         
-        result = login._fillLoginInfo("new")
+        result = login._fillLoginInfo({"content": "new", "new_url": "url"})
 
         sys.modules["__main__"].pluginsettings.userName.assert_any_call()
         sys.modules["__main__"].pluginsettings.userPassword.assert_any_call()
@@ -586,7 +586,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].common.getUserInput.return_value = "somePword"
         login = YouTubeLogin()
         
-        result = login._fillLoginInfo("new")
+        result = login._fillLoginInfo({"content": "new", "new_url": "url"})
 
         sys.modules["__main__"].common.getUserInput.assert_any_call('someTitle', hidden=True)
 
@@ -598,7 +598,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].common.getUserInput.return_value = "somePword"
         login = YouTubeLogin()
         
-        (galx, url_data) = login._fillLoginInfo("new")
+        (galx, url_data) = login._fillLoginInfo({"content": "new", "new_url": "url"})
         
         assert(galx == "value2")
         assert(url_data["uilel"] == "value2")
@@ -616,7 +616,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].common.getUserInput.return_value = "somePword"
         login = YouTubeLogin()
         
-        (galx, url_data) = login._fillLoginInfo("new")
+        (galx, url_data) = login._fillLoginInfo({"content": "new", "new_url": "url"})
 
         assert(galx == "")        
         assert(url_data == {})
