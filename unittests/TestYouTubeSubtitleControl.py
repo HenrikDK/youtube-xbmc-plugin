@@ -14,7 +14,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
         subtitles = YouTubeSubtitleControl()
         subtitles.getSubtitleFileName = Mock()
 
-        subtitles.saveSubtitle("my_subtitle_stream", {"Title": "testTitle", "videoid": "someVideoId", "downloadPath": "downloadFilePath"})
+        subtitles.saveSubtitle("my_subtitle_stream", {"Title": "testTitle", "videoid": "someVideoId", "download_path": "downloadFilePath"})
 
         sys.modules["__main__"].xbmc.translatePath.assert_called_with("somepath")
 
@@ -24,7 +24,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
         subtitles = YouTubeSubtitleControl()
         subtitles.getSubtitleFileName = Mock(return_value="testTitle-[someVideoId].ssa")
 
-        subtitles.saveSubtitle("my_subtitle_stream", {"Title": "testTitle", "videoid": "someVideoId", "downloadPath": "downloadFilePath"})
+        subtitles.saveSubtitle("my_subtitle_stream", {"Title": "testTitle", "videoid": "someVideoId", "download_path": "downloadFilePath"})
 
         sys.modules["__main__"].xbmcvfs.rename.assert_called_with("tempFilePath/testTitle-[someVideoId].ssa", "downloadFilePath/testTitle-[someVideoId].ssa")
 
@@ -34,7 +34,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
         subtitles = YouTubeSubtitleControl()
         subtitles.getSubtitleFileName = Mock(return_value="testTitle-[someVideoId].ssa")
 
-        subtitles.saveSubtitle("my_subtitle_stream", {"Title": "testTitle", "videoid": "someVideoId", "downloadPath": "downloadFilePath"})
+        subtitles.saveSubtitle("my_subtitle_stream", {"Title": "testTitle", "videoid": "someVideoId", "download_path": "downloadFilePath"})
 
         sys.modules["__main__"].storage.openFile.assert_called_with("tempFilePath/testTitle-[someVideoId].ssa", "w") # was "wb"
 
