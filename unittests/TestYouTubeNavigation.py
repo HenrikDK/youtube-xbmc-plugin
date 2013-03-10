@@ -854,7 +854,7 @@ class TestYouTubeNavigation(BaseTestCase.BaseTestCase):
         
         sys.modules["__main__"].xbmcgui.ListItem().setProperty.assert_called_with('Folder', 'true')
         
-    def test_addFolderListItem_should_call_settings_getSetting_to_fetch_downloadPath_if_item_feed_is_downloads(self):
+    def test_addFolderListItem_should_call_settings_getSetting_to_fetch_download_path_if_item_feed_is_downloads(self):
         sys.argv = ["some_path", -1, "some_params"]
         navigation = YouTubeNavigation()
         navigation.addFolderContextMenuItems = Mock()
@@ -862,7 +862,7 @@ class TestYouTubeNavigation(BaseTestCase.BaseTestCase):
         
         navigation.addFolderListItem({}, {"feed": "downloads", "Title": "some_title", "icon": "some_icon", "thumbnail": "some_thumbnail"})
         
-        sys.modules["__main__"].settings.getSetting.assert_called_with("downloadPath")
+        sys.modules["__main__"].settings.getSetting.assert_called_with("download_path")
         
     def test_addFolderListItem_should_call_xbmcplugin_addDirectoryItem_correctly(self):
         sys.argv = ["some_path", -1, "some_params"]
@@ -872,7 +872,7 @@ class TestYouTubeNavigation(BaseTestCase.BaseTestCase):
         
         navigation.addFolderListItem({}, {"feed": "downloads", "Title": "some_title", "icon": "some_icon", "thumbnail": "some_thumbnail"})
         
-        sys.modules["__main__"].settings.getSetting.assert_called_with("downloadPath")
+        sys.modules["__main__"].settings.getSetting.assert_called_with("download_path")
         
     def test_addActionListItem_should_call_utils_get_thumbnail_to_get_thumbnail_path(self):
         sys.argv = ["some_path", -1, "some_params"]
