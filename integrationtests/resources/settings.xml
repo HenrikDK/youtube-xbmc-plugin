@@ -4,7 +4,7 @@
     <setting id="contacts" value="true" />
     <setting id="debug" value="true" />
     <setting id="disco" value="true" />
-    <setting id="downloadPath" value="./tmp" />
+    <setting id="download_path" value="./tmp" />
     <setting id="downloads" value="true" />
     <setting id="explore" value="true" />
     <setting id="favorites" value="true" />
