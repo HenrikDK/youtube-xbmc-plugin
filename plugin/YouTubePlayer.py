@@ -217,10 +217,10 @@ class YouTubePlayer():
         '''
         If the plugin is not set to "Ask" for "Max video quality" in the settings, play back fails with
         XFILE::CFileCache::Open - failed to open source
-        This is due to the user agent being added to the video_url
+        This is due to the user agent being added to the video_url incorrectly
         '''
-        # if get("action") != "download":
-        #     video_url += " | " + self.common.USERAGENT
+        if get("action") != "download":
+            video_url += '|' + urllib.urlencode({'User-Agent':self.common.USERAGENT})
 
         self.common.log(u"Done")
         return video_url
