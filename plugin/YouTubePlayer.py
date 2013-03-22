@@ -370,13 +370,12 @@ class YouTubePlayer():
         get = params.get
 
         result = self.getVideoPageFromYoutube(get)
-        if self.isVideoAgeRestricted(result) and self.pluginsettings.userName() != "":
-            self.login.login()
-            result = self.getVideoPageFromYoutube(get)
-
         if self.isVideoAgeRestricted(result):
             self.common.log(u"Age restricted video")
-            if not self.pluginsettings.userHasProvidedValidCredentials():
+            if self.pluginsettings.userHasProvidedValidCredentials():
+                self.login._httpLogin({"new":"true"})
+                result = self.getVideoPageFromYoutube(get)
+            else:
                 self.utils.showMessage(self.language(30600), self.language(30622))
 
         if result[u"status"] != 200:
