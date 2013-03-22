@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import nose
+import urllib
 import BaseTestCase
 from mock import Mock, patch
 import sys
@@ -140,7 +141,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
         url = player.selectVideoQuality({},{22: "h264", 45: "vp8"})
 
         print "url: " + repr(url)
-        assert(url == "h264 | Mozilla/5.0 (MOCK)")
+        assert(url[:url.find("|")].strip() == "h264")
 
     def test_selectVideoQuality_should_prefer_1080p_if_asked_to(self):
         sys.modules["__main__"].settings.getSetting.return_value = "2"
@@ -148,7 +149,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         url = player.selectVideoQuality({"quality": "1080p"},{37: "1080p", 22: "720p", 35: "SD"})
 
-        assert(url == "1080p | Mozilla/5.0 (MOCK)")
+        assert(url[:url.find("|")].strip() == "1080p")
 
     def test_selectVideoQuality_should_prefer_720p_if_asked_to(self):
         sys.modules["__main__"].settings.getSetting.return_value = "2"
@@ -156,7 +157,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         url = player.selectVideoQuality({"quality": "720p"},{37: "1080p", 22: "720p", 35: "SD"})
 
-        assert(url == "720p | Mozilla/5.0 (MOCK)")
+        assert(url[:url.find("|")].strip() == "720p")
 
     def test_selectVideoQuality_should_prefer_SD_if_asked_to(self):
         sys.modules["__main__"].settings.getSetting.return_value = "2"
@@ -164,7 +165,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         url = player.selectVideoQuality({"quality": "SD"},{37: "1080p", 22: "720p", 35: "SD"})
 
-        assert(url == "SD | Mozilla/5.0 (MOCK)")
+        assert(url[:url.find("|")].strip() == "SD")
 
     def test_selectVideoQuality_should_choose_highest_sd_quality_if_only_multiple_sd_qualities_are_available(self):
         sys.modules["__main__"].settings.getSetting.return_value = "1"
@@ -172,7 +173,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         url = player.selectVideoQuality({},{5: "1", 33: "2", 18: "3", 26: "4", 43: "5", 34: "6", 78: "7", 44: "8", 59: "9", 35: "10"})
 
-        assert(url == "10 | Mozilla/5.0 (MOCK)")
+        assert(url[:url.find("|")].strip() == "10")
 
     def test_selectVideoQuality_should_prefer_1080p_if_user_has_selected_that_option(self):
         sys.modules["__main__"].settings.getSetting.return_value = "3"
@@ -180,7 +181,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         url = player.selectVideoQuality({},{35: "SD", 22: "720p", 37: "1080p"})
 
-        assert(url == "1080p | Mozilla/5.0 (MOCK)")
+        assert(url[:url.find("|")].strip() == "1080p")
 
     def test_selectVideoQuality_should_limit_to_720p_if_user_has_selected_that_option(self):
         sys.modules["__main__"].settings.getSetting.return_value = "2"
@@ -188,7 +189,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         url = player.selectVideoQuality({},{35: "SD", 22: "720p", 37: "1080p"})
 
-        assert(url == "720p | Mozilla/5.0 (MOCK)")
+        assert(url[:url.find("|")].strip() == "720p")
 
     def test_selectVideoQuality_should_limit_to_sd_if_user_has_selected_that_option(self):
         sys.modules["__main__"].settings.getSetting.return_value = "1"
@@ -196,7 +197,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         url = player.selectVideoQuality({},{35: "SD", 22: "720p", 37: "1080p"})
 
-        assert(url == "SD | Mozilla/5.0 (MOCK)")
+        assert(url[:url.find("|")].strip() == "SD")
 
     def test_selectVideoQuality_should_call_userSelectsVideoQuality_if_user_selected_that_option(self):
         sys.modules["__main__"].settings.getSetting.return_value = "0"
@@ -207,13 +208,13 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         player.userSelectsVideoQuality.assert_called_with({}, {35: 'SD', 37: '1080p', 22: '720p'})
 
-    def test_selectVideoQuality_should_add_user_agent_when_not_called_by_download_function(self):
+    def test_selectVideoQuality_should_add_valid_user_agent_when_not_called_by_download_function(self):
         sys.modules["__main__"].settings.getSetting.return_value = "1"
         player = YouTubePlayer()
 
         url = player.selectVideoQuality({},{35: "SD", 22: "720p", 37: "1080p"})
 
-        assert(url.find("| Mozilla/5.0 (MOCK)") > 0)
+        assert(url.find("|" + urllib.urlencode({'User-Agent':"Mozilla/5.0 (MOCK)"})) > 0)
 
     def test_selectVideoQuality_should_not_add_user_agent_when_called_by_download_function(self):
         sys.modules["__main__"].settings.getSetting.return_value = "1"
@@ -221,7 +222,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         url = player.selectVideoQuality({"action": "download"},{35: "SD", 22: "720p", 37: "1080p"})
 
-        assert(url.find("| Mozilla/5.0 (MOCK)") < 0)
+        assert(url.find("|" + urllib.urlencode({'User-Agent':"Mozilla/5.0 (MOCK)"})) < 0)
 
     def test_userSelectsVideoQuality_should_append_list_of_known_qualities(self):
         sys.modules["__main__"].settings.getSetting.return_value = "1"
