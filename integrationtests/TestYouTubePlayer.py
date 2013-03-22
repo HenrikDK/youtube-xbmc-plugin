@@ -81,13 +81,12 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].utils.showMessage = Mock()
         self.navigation.executeAction({"action": "play_video", "videoid": "Vzue74y7A84"})
 
-        args = sys.modules["__main__"].xbmcplugin.setResolvedUrl.call_args_list
         args = sys.modules["__main__"].utils.showMessage.call_args_list
         print "url: " + repr(sys.modules["__main__"].xbmcgui.ListItem.call_args_list)
         print "Args: " + repr(args)
-        print repr(args[len(args[0]) - 1][0][1] == "Playback requires valid YouTube account")
+        print repr(args[0][0][1] == "Playback requires valid YouTube account")
 
-        assert(args[len(args[0]) - 1][0][1] == "Playback requires valid YouTube account")
+        assert(args[0][0][1] == "Playback requires valid YouTube account")
 
     def test_plugin_should_play_age_restricted_videos_if_user_provides_credentials(self):
         sys.modules["__main__"].settings.load_strings("./resources/basic-login-settings-logged-in.xml")
