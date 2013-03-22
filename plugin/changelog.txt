@@ -13,6 +13,11 @@
 - [XBMC] Has Excessive Memory use after running the plugin for prolonged periods of time
 - [RTMPDUMP] Doesn't support handshake type 10 which is required by youtube.
 
+[B]Version 3.4.4[/B]
+- Fixed playback after youtube javascript site changes
+- Fixed age verification, by making playback always do a full http login on restricted videos since google changed their detection algorithm
+- Fixed addition of User Agent was causing problems for Windows and IOS clients, thanks to 
+
 [B]Version 3.4.3[/B]
 - Fixed login
 
