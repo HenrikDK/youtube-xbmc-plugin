@@ -528,34 +528,6 @@ class TestYouTubeCore(BaseTestCase.BaseTestCase):
 
         sys.modules[ "__main__" ].common.log.assert_called_with("giving up")
 
-    def test_fetchPage_should_properly_handle_quota(self):
-        sys.modules[ "__main__" ].settings.getSetting.side_effect = ["3","4","", "", "false", "", "false", "", "", "", "", "", "", "", ""]
-        patcher1 = patch("urllib2.urlopen")
-        patcher2 = patch("time.sleep")
-        patcher1.start()
-        patcher2.start()
-
-        import urllib2
-        import time
-        time.sleep = Mock()
-        fp = Mock()
-        fp.read.return_value = "<?xml version='1.0' encoding='UTF-8'?><errors><error><domain>yt:quota</domain><code>too_many_recent_calls</code></error></errors>"
-        dummy_connection = Mock()
-        dummy_connection.read.side_effect = urllib2.HTTPError("",403,"BOOM forbidden","",fp)
-        patcher1(urllib2.urlopen).return_value = dummy_connection
-
-        core = YouTubeCore()
-        core._getAuth = Mock()
-
-        ret = core._fetchPage({"auth":"true", "link":"www.somelink.dk"})
-
-        patcher1.stop()
-
-        time.sleep.assert_called_with(100)
-        patcher2.stop()
-
-        sys.modules[ "__main__" ].common.log.assert_any_call("Hit quota... sleeping for 100 seconds")
-
     def test_fetchPage_should_call_urllib_add_header_id_url_data_is_in_params_collection(self):
         sys.modules[ "__main__" ].settings.getSetting.side_effect = ["3","4","4", "false", "my_auth"]
         patcher1 = patch("urllib2.urlopen")
@@ -581,8 +553,6 @@ class TestYouTubeCore(BaseTestCase.BaseTestCase):
         print repr(args)
         assert(args[0][0] == 'www.somelink.dk?oauth_token=4')
         assert(args[0][1]== 'data=some_data')
-        #assert(dummy_request.add_header.call_args[0][1] == 'GoogleLogin auth=my_auth')
-        #assert(dummy_request.add_header.call_args[0][0] == 'Authorization')
 
     def test_fetchPage_should_set_request_method_to_get_if_request_is_not_in_params_collection(self):
         sys.modules[ "__main__" ].settings.getSetting = Mock()
