@@ -282,7 +282,12 @@ class YouTubePlayer():
 
         (links, video) = self.extractVideoLinksFromYoutube(video, params)
 
-        video[u"video_url"] = self.selectVideoQuality(params, links)
+        if "hlsvp" in video:
+            #hls selects the quality based on available bitrate (adaptive quality), no need to select it here
+            video[u"video_url"] = video[u"hlsvp"]
+            self.common.log("Using hlsvp url %s" % video[u"video_url"])
+        else:
+            video[u"video_url"] = self.selectVideoQuality(params, links)
 
         (video, status) = self.checkForErrors(video)
 
@@ -321,6 +326,9 @@ class YouTubePlayer():
 
         if flashvars.has_key(u"ttsurl"):
             video[u"ttsurl"] = flashvars[u"ttsurl"]
+
+        if flashvars.has_key(u"hlsvp"):                               
+            video[u"hlsvp"] = flashvars[u"hlsvp"]    
 
         for url_desc in flashvars[u"url_encoded_fmt_stream_map"].split(u","):
             url_desc_map = cgi.parse_qs(url_desc)
@@ -384,7 +392,7 @@ class YouTubePlayer():
 
         links = self.scrapeWebPageForVideoLinks(result, video)
 
-        if len(links) == 0:
+        if len(links) == 0 and not( "hlsvp" in video ):
             self.common.log(u"Couldn't find video url- or stream-map.")
 
             if not u"apierror" in video:
