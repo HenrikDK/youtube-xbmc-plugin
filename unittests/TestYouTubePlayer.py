@@ -416,6 +416,19 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
 
         assert(result[0].has_key(35))
 
+    def test_buildVideoObject_with_hls(self):
+        sys.modules["__main__"].core._fetchPage.return_value = {"status": 200, "content": self.readTestInput("live-video-hls-page-S_pMsJw-_oA.html", False)}
+        sys.modules["__main__"].subtitles.getLocalFileSource.return_value = ""
+        sys.modules["__main__"].common.parseDOM.return_value = []
+        params = {"videoid": "some_id"}
+        player = YouTubePlayer()
+        player.getInfo = Mock()
+        video = {"videoid": "some_id", "Title": "someTitle"}
+        player.getInfo.return_value = (video, 200)
+
+        (video, status) = player.buildVideoObject(params)
+        
+        assert(video["video_url"] == "http://www.youtube.com/api/manifest/hls_variant/id/S_pMsJw-_oA.2/sparams/cp%2Cid%2Cip%2Cipbits%2Cmaudio%2Cplaylist_type%2Cpmbypass%2Csource%2Cexpire/expire/1364700604/playlist_type/DVR/ipbits/8/upn/Ftpj_wWBeuQ/signature/4B46E966BDE27C0772BA90DE72F0B083F7C44E5A.6F1348A5EE63E4167F1E03C1DE268DABA3EB836E/fexp/932000%2C906383%2C902000%2C919512%2C929903%2C931202%2C900821%2C900823%2C931203%2C931401%2C908529%2C919373%2C930803%2C906836%2C920201%2C929602%2C930101%2C930603%2C900824%2C910223/ip/205.178.10.177/key/yt1/maudio/1/sver/3/cp/U0hVSVdLTl9FTkNONV9PRVJHOmtkY0VJTkJQay02/pmbypass/yes/source/yt_live_broadcast/file/index.m3u8")
 
 
 if __name__ == '__main__':
