@@ -254,7 +254,7 @@ class YouTubePlayer():
     def checkForErrors(self, video):
         status = 200
 
-        if video[u"video_url"] == u"":
+        if "video_url" not in video or video[u"video_url"] == u"":
             status = 303
             vget = video.get
             if vget(u"live_play"):
