@@ -254,7 +254,7 @@ class YouTubePlayer():
     def checkForErrors(self, video):
         status = 200
 
-        if video[u"video_url"] == u"":
+        if "video_url" not in video or video[u"video_url"] == u"":
             status = 303
             vget = video.get
             if vget(u"live_play"):
@@ -282,12 +282,12 @@ class YouTubePlayer():
 
         (links, video) = self.extractVideoLinksFromYoutube(video, params)
 
-        if "hlsvp" in video:
+        if len(links) != 0:
+            video[u"video_url"] = self.selectVideoQuality(params, links)
+        elif "hlsvp" in video:
             #hls selects the quality based on available bitrate (adaptive quality), no need to select it here
             video[u"video_url"] = video[u"hlsvp"]
             self.common.log("Using hlsvp url %s" % video[u"video_url"])
-        else:
-            video[u"video_url"] = self.selectVideoQuality(params, links)
 
         (video, status) = self.checkForErrors(video)
 
