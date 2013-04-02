@@ -282,12 +282,12 @@ class YouTubePlayer():
 
         (links, video) = self.extractVideoLinksFromYoutube(video, params)
 
-        if "hlsvp" in video:
+        if len(links) != 0:
+            video[u"video_url"] = self.selectVideoQuality(params, links)
+        elif "hlsvp" in video:
             #hls selects the quality based on available bitrate (adaptive quality), no need to select it here
             video[u"video_url"] = video[u"hlsvp"]
             self.common.log("Using hlsvp url %s" % video[u"video_url"])
-        else:
-            video[u"video_url"] = self.selectVideoQuality(params, links)
 
         (video, status) = self.checkForErrors(video)
 
