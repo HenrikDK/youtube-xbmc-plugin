@@ -54,6 +54,7 @@ class YouTubePlaylistControl():
             result = self.getYouTubeTop100(params)
         elif get("playlist"):
             params["user_feed"] = "playlist"
+            params["login"] = "true"
             result = self.getUserFeed(params)
         elif get("user_feed") in ["recommended", "watch_later", "newsubscriptions", "favorites"]:
             params["login"] = "true"
