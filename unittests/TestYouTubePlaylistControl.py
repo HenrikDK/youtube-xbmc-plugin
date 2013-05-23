@@ -14,7 +14,7 @@ class TestYouTubePlaylistControl(BaseTestCase.BaseTestCase):
         
         control.playAll({"user_feed":"playlist", "playlist":"someid"})
         
-        control.getUserFeed.assert_called_with({"playlist":"someid", "user_feed":"playlist",'fetch_all': 'true'})
+        control.getUserFeed.assert_called_with({"playlist":"someid", "user_feed":"playlist",'fetch_all': 'true', "login":"true"})
         
     def test_playAll_should_call_getDiscoSearch_if_scraper_is_disco_search_in_params(self):
         control = YouTubePlaylistControl()
