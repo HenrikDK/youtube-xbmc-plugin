@@ -4,7 +4,7 @@ import nose
 class TestYouTubeShowsScraper(BaseTestCase.BaseTestCase):
 
     def test_plugin_should_scrape_trailers_top_100_playlist_and_video_list(self):
-        self.navigation.listMenu({"scraper": "trailers", "path": "/root/explore/trailers"})
+        self.navigation.listMenu({"feed": "playlist", "playlist":"PL5F394CB9AB8A3519", "path": "/root/explore/trailers"})
 
         self.assert_directory_count_greater_than_or_equals(10)
         self.assert_directory_count_less_than_or_equals(51)
