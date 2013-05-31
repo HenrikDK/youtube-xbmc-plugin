@@ -295,6 +295,15 @@ class YouTubePlayer():
 
         return (video, status)
 
+    def removeAdditionalEndingDelimiter(self, data):
+        self.common.log(u"searching for crap at end")
+        pos = data.find("};")
+        if pos != -1:
+            self.common.log(u"found crap at end")
+            data = data[:pos + 1]
+            self.common.log(u"crap trimmed")
+        return data
+
     def extractFlashVars(self, data):
         flashvars = {}
         found = False
@@ -308,6 +317,8 @@ class YouTubePlayer():
                     continue
                 data = line[p1 + 1:p2]
                 break
+
+        data = self.removeAdditionalEndingDelimiter(data)
 
         if found:
             data = json.loads(data)
