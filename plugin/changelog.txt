@@ -15,6 +15,9 @@
 
 [B]Version 3.4.5[/B]
 - Added support for hls only streams. (Thanks to simplyintricate on github)
+- Fixed edge case where youtube video object contained an extra delimiter breakning the video player
+- Changed: Now requires valid Login to use play all on users playlists
+- Changed: Switched trailers to use youtube api
 
 [B]Version 3.4.4[/B]
 - Fixed playback after youtube javascript site changes
