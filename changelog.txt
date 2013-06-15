@@ -13,6 +13,12 @@
 - [XBMC] Has Excessive Memory use after running the plugin for prolonged periods of time
 - [RTMPDUMP] Doesn't support handshake type 10 which is required by youtube.
 
+[B]Version 3.4.5[/B]
+- Added support for hls only streams. (Thanks to simplyintricate on github)
+- Fixed edge case where youtube video object contained an extra delimiter breakning the video player
+- Changed: Now requires valid Login to use play all on users playlists
+- Changed: Switched trailers to use youtube api
+
 [B]Version 3.4.4[/B]
 - Fixed playback after youtube javascript site changes
 - Fixed age verification, by making playback always do a full http login on restricted videos since google changed their detection algorithm

@@ -65,7 +65,7 @@ class YouTubeNavigation():
             {'Title':self.language(30052)  ,'path':"/root/explore/music"                   , 'thumbnail':"music"             , 'login':"false" , 'store':"disco_searches", "folder":"true" },
             {'Title':self.language(30040)  ,'path':"/root/explore/music/new"               , 'thumbnail':"search"            , 'login':"false" , 'scraper':"search_disco"},
             {'Title':self.language(30055)  ,'path':"/root/explore/music/top100"            , 'thumbnail':"music"             , 'login':"false" , 'scraper':'music_top100'},
-            {'Title':self.language(30032)  ,'path':"/root/explore/trailers"                , 'thumbnail':"trailers"          , 'login':"false" , 'scraper':'trailers'},
+            {'Title':self.language(30032)  ,'path':"/root/explore/trailers"                , 'thumbnail':"trailers"          , 'login':"false" , 'feed':'playlist', 'playlist':"PL5F394CB9AB8A3519"},
             {'Title':self.language(30051)  ,'path':"/root/explore/live"                    , 'thumbnail':"live"              , 'login':"false" , 'feed':"feed_live" },
             {'Title':self.language(30019)  ,'path':"/root/recommended"                     , 'thumbnail':"recommended"       , 'login':"true"  , 'user_feed':"recommended" },
             {'Title':self.language(30008)  ,'path':"/root/watch_later"                     , 'thumbnail':"watch_later"       , 'login':"true"  , 'user_feed':"watch_later" },

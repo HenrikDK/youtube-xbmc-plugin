@@ -254,7 +254,7 @@ class YouTubePlayer():
     def checkForErrors(self, video):
         status = 200
 
-        if video[u"video_url"] == u"":
+        if "video_url" not in video or video[u"video_url"] == u"":
             status = 303
             vget = video.get
             if vget(u"live_play"):
@@ -282,13 +282,25 @@ class YouTubePlayer():
 
         (links, video) = self.extractVideoLinksFromYoutube(video, params)
 
-        video[u"video_url"] = self.selectVideoQuality(params, links)
+        if len(links) != 0:
+            video[u"video_url"] = self.selectVideoQuality(params, links)
+        elif "hlsvp" in video:
+            #hls selects the quality based on available bitrate (adaptive quality), no need to select it here
+            video[u"video_url"] = video[u"hlsvp"]
+            self.common.log("Using hlsvp url %s" % video[u"video_url"])
 
         (video, status) = self.checkForErrors(video)
 
         self.common.log(u"Done")
 
         return (video, status)
+
+    def removeAdditionalEndingDelimiter(self, data):
+        pos = data.find("};")
+        if pos != -1:
+            self.common.log(u"found extra delimiter, removing")
+            data = data[:pos + 1]
+        return data
 
     def extractFlashVars(self, data):
         flashvars = {}
@@ -303,6 +315,8 @@ class YouTubePlayer():
                     continue
                 data = line[p1 + 1:p2]
                 break
+
+        data = self.removeAdditionalEndingDelimiter(data)
 
         if found:
             data = json.loads(data)
@@ -321,6 +335,9 @@ class YouTubePlayer():
 
         if flashvars.has_key(u"ttsurl"):
             video[u"ttsurl"] = flashvars[u"ttsurl"]
+
+        if flashvars.has_key(u"hlsvp"):                               
+            video[u"hlsvp"] = flashvars[u"hlsvp"]    
 
         for url_desc in flashvars[u"url_encoded_fmt_stream_map"].split(u","):
             url_desc_map = cgi.parse_qs(url_desc)
@@ -384,7 +401,7 @@ class YouTubePlayer():
 
         links = self.scrapeWebPageForVideoLinks(result, video)
 
-        if len(links) == 0:
+        if len(links) == 0 and not( "hlsvp" in video ):
             self.common.log(u"Couldn't find video url- or stream-map.")
 
             if not u"apierror" in video:
