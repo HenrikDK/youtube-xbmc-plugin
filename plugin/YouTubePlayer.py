@@ -359,10 +359,33 @@ class YouTubePlayer():
 
             if url_desc_map.has_key(u"sig"):
                 url = url + u"&signature=" + url_desc_map[u"sig"][0]
+            elif url_desc_map.has_key(u"s"):
+                sig = url_desc_map[u"s"][0]
+                url = url + u"&signature=" + self.decrypt_signature(sig)
 
             links[key] = url
 
         return links
+
+    def decrypt_signature(self, s):
+        ''' use decryption solution by Youtube-DL project '''
+        if len(s) == 88:
+            return s[48] + s[81:67:-1] + s[82] + s[66:62:-1] + s[85] + s[61:48:-1] + s[67] + s[47:12:-1] + s[3] + s[11:3:-1] + s[2] + s[12]
+        elif len(s) == 87:
+            return s[62] + s[82:62:-1] + s[83] + s[61:52:-1] + s[0] + s[51:2:-1]
+        elif len(s) == 86:
+            return s[2:63] + s[82] + s[64:82] + s[63]
+        elif len(s) == 85:
+            return s[76] + s[82:76:-1] + s[83] + s[75:60:-1] + s[0] + s[59:50:-1] + s[1] + s[49:2:-1]
+        elif len(s) == 84:
+            return s[83:36:-1] + s[2] + s[35:26:-1] + s[3] + s[25:3:-1] + s[26]
+        elif len(s) == 83:
+            return s[52] + s[81:55:-1] + s[2] + s[54:52:-1] + s[82] + s[51:36:-1] + s[55] + s[35:2:-1] + s[36]
+        elif len(s) == 82:
+            return s[36] + s[79:67:-1] + s[81] + s[66:40:-1] + s[33] + s[39:36:-1] + s[40] + s[35] + s[0] + s[67] + s[32:0:-1] + s[34]
+
+        else:
+            self.common.log(u'Unable to decrypt signature, key length %d not supported; retrying might work' % (len(s)))
 
     def getVideoPageFromYoutube(self, get):
         login = "false"
