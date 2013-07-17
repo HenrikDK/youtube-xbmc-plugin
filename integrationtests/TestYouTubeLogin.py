@@ -11,7 +11,6 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].settings.load_strings("./resources/basic-login-settings.xml")
 
         assert(sys.modules["__main__"].settings.getSetting("auth") == "")
-        assert(sys.modules["__main__"].settings.getSetting("oauth2_access_token") == "")
 
         print "username: " + sys.modules["__main__"].settings.getSetting("username")
         print "pass: " + sys.modules["__main__"].settings.getSetting("user_password")
@@ -31,7 +30,6 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].settings.load_strings("./resources/unlinked-login-settings.xml")
 
         assert(sys.modules["__main__"].settings.getSetting("auth") == "")
-        assert(sys.modules["__main__"].settings.getSetting("oauth2_access_token") == "")
 
         print "username: " + sys.modules["__main__"].settings.getSetting("username")
         print "pass: " + sys.modules["__main__"].settings.getSetting("user_password")
@@ -73,7 +71,6 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].settings.load_strings("./resources/basic-login-settings-plus.xml")
 
         assert(sys.modules["__main__"].settings.getSetting("auth") == "")
-        assert(sys.modules["__main__"].settings.getSetting("oauth2_access_token") == "")
 
         print "username: " + sys.modules["__main__"].settings.getSetting("username")
         print "pass: " + sys.modules["__main__"].settings.getSetting("user_password")
@@ -91,7 +88,6 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].settings.load_strings("./resources/basic-login-settings-plus-page.xml")
 
         assert(sys.modules["__main__"].settings.getSetting("auth") == "")
-        assert(sys.modules["__main__"].settings.getSetting("oauth2_access_token") == "")
 
         print "username: " + sys.modules["__main__"].settings.getSetting("username")
         print "pass: " + sys.modules["__main__"].settings.getSetting("user_password")
