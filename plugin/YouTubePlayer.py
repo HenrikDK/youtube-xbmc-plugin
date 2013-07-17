@@ -316,12 +316,12 @@ class YouTubePlayer():
                     continue
                 data = line[p1 + 1:p2]
                 break
-
         data = self.removeAdditionalEndingDelimiter(data)
 
         if found:
             data = json.loads(data)
             flashvars = data["args"]
+        self.common.log("Step2: " + repr(data))
 
         self.common.log(u"flashvars: " + repr(flashvars), 2)
         return flashvars
@@ -397,6 +397,7 @@ class YouTubePlayer():
             login = "true"
 
         page = self.core._fetchPage({u"link": self.urls[u"video_stream"] % get(u"videoid"), "login": login})
+        self.common.log("Step1: " + repr(page["content"].find("ytplayer")))
 
         if not page:
             page = {u"status":303}

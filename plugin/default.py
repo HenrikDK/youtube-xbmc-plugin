@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+import os
 import sys
 import xbmc
 import xbmcgui
@@ -51,7 +52,12 @@ login = ""
 player = ""
 cache = ""
 
-cookiejar = cookielib.LWPCookieJar()
+path = xbmc.translatePath(settings.getAddonInfo("profile"))
+path = os.path.join(path, 'yt-cookiejar.txt')
+print("Loading cookies from :" + repr(path))
+cookiejar = cookielib.FileCookieJar(path)
+cookiejar.load()
+
 cookie_handler = urllib2.HTTPCookieProcessor(cookiejar)
 opener = urllib2.build_opener(cookie_handler)
 

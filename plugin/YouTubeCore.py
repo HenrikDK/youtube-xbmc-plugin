@@ -430,8 +430,8 @@ class YouTubeCore():
         else:
             request.add_header('User-Agent', self.common.USERAGENT)
 
-            if get("no-language-cookie", "false") == "false":
-                cookie += "PREF=f1=50000000&hl=en;"
+            if get("no-language-cookie", "false") == "false" and False:
+                cookie += "PREF=f1=50000000&hl=en; "
 
         if get("login", "false") == "true":
             self.common.log("got login")
@@ -450,8 +450,8 @@ class YouTubeCore():
             if self.settings.getSetting("login_cookies") != "":
                 tcookies = eval(self.settings.getSetting("login_cookies"))
                 self.common.log("Adding login cookies: " + repr(tcookies.keys()))
-                for key in tcookies.keys():
-                    cookie += "%s=%s;" % ( key, tcookies[key])
+                #for key in tcookies.keys():
+                #    cookie += "%s=%s; " % ( key, tcookies[key])
 
         if get("referer", "false") != "false":
             self.common.log("Added referer: %s" % get("referer"))
@@ -462,7 +462,7 @@ class YouTubeCore():
 
             if cookie:
                 self.common.log("Setting cookie: " + cookie)
-                request.add_header('Cookie', cookie)
+                #request.add_header('Cookie', cookie)
 
             con = urllib2.urlopen(request)
 

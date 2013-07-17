@@ -343,6 +343,12 @@ class YouTubeLogin():
 
         # Save cookiefile in settings
         cookies = self.common.getCookieInfoAsHTML()
+        #import os
+        #path = self.xbmc.translatePath('special://temp/')
+        #path = os.path.join(path, 'yt-cookiejar.txt')
+        #self.common.log("Saving cookies in :" + repr(path))
+        sys.modules["__main__"].cookiejar.save()
+
         login_info = self.common.parseDOM(cookies, "cookie", attrs={"name": "LOGIN_INFO"}, ret="value")
         SID = self.common.parseDOM(cookies, "cookie", attrs={"name": "SID", "domain": ".youtube.com"}, ret="value")
         scookies = {}
@@ -350,7 +356,20 @@ class YouTubeLogin():
         tnames = re.compile(" name='(.*?)' ").findall(cookies)
         for key in tnames:
             tval = self.common.parseDOM(cookies, "cookie", attrs={"name": key}, ret="value")
+            if key not in ["LOGIN_INFO", "HSID", "SID"]:
+                self.common.log("Ignoring cookie:" + repr(key) + " = " + repr(tval[0]))
+                continue
+
             if len(tval) > 0:
+                if tval[0].find(".com") != -1 and False:
+                    self.common.log("Ignoring cookie:" + repr(key) + " = " + repr(tval[0]))
+                    #continue
+                if tval[0].find(" ") > -1:
+                    self.common.log("Found space in cookie:" + repr(key) + " = " + repr(tval[0]))
+                    tval[0] = tval[0][:tval[0].find(" ")].strip()
+                    if tval[0][len(tval[0]) - 1] == "'" or tval[0][len(tval[0]) - 1] == '"':
+                        tval[0] = tval[0][: len(tval[0]) - 2]
+                    self.common.log("Found space in cookie2:" + repr(key) + " = " + repr(tval[0]))
                 scookies[key] = tval[0]
         self.common.log("COOKIES:" + repr(scookies))
 
