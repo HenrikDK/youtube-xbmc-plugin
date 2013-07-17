@@ -13,6 +13,11 @@
 - [XBMC] Has Excessive Memory use after running the plugin for prolonged periods of time
 - [RTMPDUMP] Doesn't support handshake type 10 which is required by youtube.
 
+[B]Version 3.4.6[/B]
+- Much better cookie management
+- Support a 5th login method.
+- More robust http login
+
 [B]Version 3.4.5[/B]
 - Added support for hls only streams. (Thanks to simplyintricate on github)
 - Fixed edge case where youtube video object contained an extra delimiter breakning the video player
