@@ -36,5 +36,6 @@
     <setting id="uploads" value="true" />
     <setting id="user_password" value="yttester" />
     <setting id="username" value="logintester2@tobiasussing.dk" />
+    <setting id="oauth2_access_token" value="value" />
     <setting id="watch_later" value="true" />
 </settings>
