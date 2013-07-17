@@ -6,6 +6,7 @@ import sys
 class TestYouTubeUserScraper(BaseTestCase.BaseTestCase):
     def test_plugin_should_scrape_liked_videos_list_correctly(self):
         sys.modules["__main__"].settings.load_strings("./resources/basic-login-settings-logged-in.xml")
+        self.navigation.executeAction({'path':"/root/settings", 'login':"true", 'action':"settings" })
 
         self.navigation.listMenu({"scraper": "liked_videos", 'login': 'true', "path": "/root/liked_videos"})
 
