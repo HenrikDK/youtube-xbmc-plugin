@@ -38,5 +38,6 @@
     <setting id="username" value="logintester@tobiasussing.dk"/>
     <setting id="watch_later" value="true"/>
     <setting id="proxy" value="http://proxywimp.com/browse.php?u="/>
+    <setting id="oauth2_access_token" value="value" />
     <setting id="force_proxy" value="false"/>
 </settings>
