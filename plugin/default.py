@@ -58,7 +58,10 @@ print("Loading cookies from :" + repr(path))
 cookiejar = cookielib.LWPCookieJar(path)
 
 if xbmcvfs.exists(path):
-    cookiejar.load()
+    try:
+        cookiejar.load()
+    except:
+        pass
 
 cookie_handler = urllib2.HTTPCookieProcessor(cookiejar)
 opener = urllib2.build_opener(cookie_handler)
