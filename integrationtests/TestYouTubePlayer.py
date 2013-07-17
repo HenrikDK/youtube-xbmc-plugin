@@ -62,7 +62,7 @@ class TestYouTubePlayer(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].settings.load_strings("./resources/basic-login-settings-logged-in.xml")
         sys.modules["__main__"].cache.getMulti.return_value = ["7"]
 
-        self.navigation.executeAction({"action": "play_video", "videoid": "e93MaEwrsfc"})
+        self.navigation.executeAction({"action": "play_video", "videoid": "yYO1EwNbgcQ"})
 
         args = sys.modules["__main__"].xbmcplugin.setResolvedUrl.call_args_list
         print "url: " + repr(sys.modules["__main__"].xbmcgui.ListItem.call_args_list)

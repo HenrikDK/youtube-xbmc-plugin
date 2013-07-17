@@ -210,24 +210,6 @@ class TestYouTubePlaylistControl(BaseTestCase.BaseTestCase):
         
         assert(sys.modules["__main__"].feeds.listAll.call_count == 0)
 	
-    def test_getYouTubeTop100_should_call_scrapeYouTubeTop100(self):
-        sys.modules["__main__"].scraper.scrapeYouTubeTop100.return_value = ("",303)
-        sys.modules["__main__"].core.getBatchDetails.return_value = ("",200)
-        control = YouTubePlaylistControl()
-        
-        control.getYouTubeTop100({})
-        
-        assert(sys.modules["__main__"].scraper.scrapeYouTubeTop100.call_count == 1)
-	
-    def test_getYouTubeTop100_should_call_getBatchDetails(self):
-        sys.modules["__main__"].scraper.scrapeYouTubeTop100.return_value = ("",200)
-        sys.modules["__main__"].core.getBatchDetails.return_value = ("",200)
-        control = YouTubePlaylistControl()
-        
-        control.getYouTubeTop100({})
-
-        assert(sys.modules["__main__"].core.getBatchDetails.call_count == 1)
-
     def test_getLikedVideos_should_exit_cleanly_if_scraper_or_login_is_not_in_params(self):
         control = YouTubePlaylistControl()
         

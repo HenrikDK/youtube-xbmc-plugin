@@ -489,23 +489,6 @@ class YouTubeCore():
             if e.code == 400 or True:
                 self.common.log("Unhandled HTTPError : [%s] %s " % (e.code, msg), 1)
 
-            if msg.find("yt:quota") > 1:
-                self.common.log("Hit quota... sleeping for 10 seconds")
-                time.sleep(10)
-            elif msg.find("too_many_recent_calls") > 1:
-                self.common.log("Hit quota... sleeping for 10 seconds")
-                time.sleep(10)
-            elif err.find("Token invalid") > -1:
-                self.common.log("refreshing token")
-                self._oRefreshToken()
-            elif err.find("User Rate Limit Exceeded") > -1:
-                self.common.log("Hit limit... Sleeping for 10 seconds")
-                time.sleep(10)
-            else:
-                if e.fp:
-                    cont = e.fp.read()
-                    self.common.log("HTTPError - Headers: " + str(e.headers) + " - Content: " + cont)
-
             params["error"] = get("error", 0) + 1
             ret_obj = self._fetchPage(params)
 

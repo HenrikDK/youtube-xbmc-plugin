@@ -80,31 +80,6 @@ class TestYouTubeScraper(BaseTestCase.BaseTestCase):
         
         assert(sys.modules["__main__"].common.parseDOM.call_count > 0)
 
-    def test_scrapeYouTubeTop100_should_call_createUrl_to_get_proper_url(self):
-        self.scraper.scrapeYouTubeTop100({})        
-        
-        self.scraper.createUrl.assert_any_call({})
-
-    def test_scrapeYouTubeTop100_should_call_fetchPage_to_get_page_content(self):
-        self.scraper.scrapeYouTubeTop100({})        
-        
-        sys.modules["__main__"].core._fetchPage.assert_any_call({"link":"some_url"})
-        
-    def test_scrapeYouTubeTop100_should_call_parseDOM_to_find_video_elements(self):        
-        
-        self.scraper.scrapeYouTubeTop100({})        
-        
-        assert(sys.modules["__main__"].common.parseDOM.call_count > 0)
-                
-    def test_scrapeYouTubeTop100_should_return_list_of_video_ids(self):
-        sys.modules["__main__"].common.parseDOM.return_value = ["some_id_1","some_id_2","some_id_3"]
-        
-        result , status = self.scraper.scrapeYouTubeTop100({})        
-        
-        assert(result[0] == "some_id_1")
-        assert(result[1] == "some_id_2")
-        assert(result[2] == "some_id_3")
-
     def test_getNewResultsFunction_should_set_proper_params_for_searchDisco_if_scraper_is_search_diso(self):
         params = {"scraper":"search_disco"}
         
@@ -118,21 +93,6 @@ class TestYouTubeScraper(BaseTestCase.BaseTestCase):
         self.scraper.getNewResultsFunction(params)
         
         assert(params["new_results_function"] == self.scraper.scrapeUserLikedVideos)
-
-    def test_getNewResultsFunction_should_set_proper_params_for_scrapeYouTubeTop100_if_scraper_is_music_top100(self):
-        params = {"scraper":"music_top100"}
-        
-        self.scraper.getNewResultsFunction(params)
-        
-        assert(params["batch"] == "true")
-        assert(params["new_results_function"] == self.scraper.scrapeYouTubeTop100)
-
-    def test_createUrl_should_return_proper_url_for_music_top_100(self):
-        self.scraper = YouTubeScraper()
-        
-        url = self.scraper.createUrl({"scraper":"music_top100"})
-
-        assert(url == self.scraper.urls["disco_main"])
 
     def test_createUrl_should_return_proper_url_for_search_disco(self):
         self.scraper = YouTubeScraper()
@@ -163,24 +123,7 @@ class TestYouTubeScraper(BaseTestCase.BaseTestCase):
         
         assert(status == 303)
         assert(result == [])
-        
-    def test_paginator_should_not_return_error_when_no_results_are_found_if_scraper_is_youtube_top100(self):
-        sys.modules["__main__"].storage.retrieve.return_value = ["some_store_value"]
-        sys.modules["__main__"].cache.cacheFunction.return_value = ([],303)
-        
-        result, status = self.scraper.paginator({"scraper":"music_top100","new_results_function":"some_function_pointer"})
-        
-        assert(status == 200)
-        assert(result == ["some_store_value"])
 
-    def test_paginator_should_call_storage_retrieve_when_no_results_are_found_if_scraper_is_youtube_top100(self):
-        sys.modules["__main__"].storage.retrieve.return_value = ["some_store_value"]
-        sys.modules["__main__"].cache.cacheFunction.return_value = ([],303)
-        
-        result, status = self.scraper.paginator({"scraper":"music_top100","new_results_function":"some_function_pointer"})
-        
-        assert(sys.modules["__main__"].storage.retrieve.call_count > 0)
-            
     def test_paginator_should_call_getBatchDetailsThumbnails_if_batch_is_thumbnails(self):
         sys.modules["__main__"].core.getBatchDetailsThumbnails.return_value = ([],200)
         
