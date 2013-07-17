@@ -53,7 +53,6 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         tmp.numeric.side_effect = self.generatePin
 
         assert(sys.modules["__main__"].settings.getSetting("auth") == "")
-        assert(sys.modules["__main__"].settings.getSetting("oauth2_access_token") == "")
 
         print "username: " + sys.modules["__main__"].settings.getSetting("username")
         print "pass: " + sys.modules["__main__"].settings.getSetting("user_password")
