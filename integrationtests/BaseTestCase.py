@@ -26,7 +26,7 @@ class BaseTestCase(unittest2.TestCase):  #pragma: no cover
     def intializePlugin(self):
         import cookielib
         import urllib2
-        sys.modules["__main__"].cookiejar = cookielib.LWPCookieJar()
+        sys.modules["__main__"].cookiejar = cookielib.LWPCookieJar("resources/cookie.jar")
         sys.modules["__main__"].opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(sys.modules["__main__"].cookiejar))
         urllib2.install_opener(sys.modules["__main__"].opener)
 
