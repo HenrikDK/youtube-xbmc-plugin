@@ -442,16 +442,10 @@ class YouTubeCore():
                 return ret_obj
 
             # This should be a call to self.login._httpLogin()
-            if self.settings.getSetting("login_cookies") == "":
+            if self.settings.getSetting("cookies_saved") == "false":
                 if isinstance(self.login, str):
                     self.login = sys.modules["__main__"].login
                 self.login._httpLogin()
-
-            if self.settings.getSetting("login_cookies") != "":
-                tcookies = eval(self.settings.getSetting("login_cookies"))
-                self.common.log("Adding login cookies: " + repr(tcookies.keys()))
-                #for key in tcookies.keys():
-                #    cookie += "%s=%s; " % ( key, tcookies[key])
 
         if get("referer", "false") != "false":
             self.common.log("Added referer: %s" % get("referer"))

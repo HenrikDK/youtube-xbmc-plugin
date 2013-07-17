@@ -55,8 +55,10 @@ cache = ""
 path = xbmc.translatePath(settings.getAddonInfo("profile"))
 path = os.path.join(path, 'yt-cookiejar.txt')
 print("Loading cookies from :" + repr(path))
-cookiejar = cookielib.FileCookieJar(path)
-cookiejar.load()
+cookiejar = cookielib.LWPCookieJar(path)
+
+if xbmcvfs.exists(path):
+    cookiejar.load()
 
 cookie_handler = urllib2.HTTPCookieProcessor(cookiejar)
 opener = urllib2.build_opener(cookie_handler)

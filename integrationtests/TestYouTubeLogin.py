@@ -87,6 +87,24 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         print "oauth2_access_token: " + oauth2_access_token + " - " + str(len(oauth2_access_token))
         assert(len(oauth2_access_token) > 40)
 
+    def test_plugin_should_perform_googleplus_login_with_page_administrator_correctly(self):
+        sys.modules["__main__"].settings.load_strings("./resources/basic-login-settings-plus-page.xml")
+
+        assert(sys.modules["__main__"].settings.getSetting("auth") == "")
+        assert(sys.modules["__main__"].settings.getSetting("oauth2_access_token") == "")
+
+        print "username: " + sys.modules["__main__"].settings.getSetting("username")
+        print "pass: " + sys.modules["__main__"].settings.getSetting("user_password")
+        print "oauth2_access_token: " + sys.modules["__main__"].settings.getSetting("oauth2_access_token")
+
+        self.navigation.executeAction({"action": "settings"})
+
+        oauth2_access_token = sys.modules["__main__"].settings.getSetting("oauth2_access_token")
+        print "username: " + sys.modules["__main__"].settings.getSetting("username")
+        print "pass: " + sys.modules["__main__"].settings.getSetting("user_password")
+        print "oauth2_access_token: " + oauth2_access_token + " - " + str(len(oauth2_access_token))
+        assert(len(oauth2_access_token) > 40)
+
     def generatePin(self, *args, **kwargs):
         userpin = str(self.totp.at(time.time()))
         while len(userpin) < 6:
