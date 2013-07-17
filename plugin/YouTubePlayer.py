@@ -257,13 +257,14 @@ class YouTubePlayer():
 
         if "video_url" not in video or video[u"video_url"] == u"":
             status = 303
-            vget = video.get
-            if vget(u"live_play"):
-                video[u'apierror'] = self.language(30612)
-            elif vget(u"stream_map"):
-                video[u'apierror'] = self.language(30620)
-            else:
-                video[u'apierror'] = self.language(30618)
+            if u"apierror" not in video:
+                vget = video.get
+                if vget(u"live_play"):
+                    video[u'apierror'] = self.language(30612)
+                elif vget(u"stream_map"):
+                    video[u'apierror'] = self.language(30620)
+                else:
+                    video[u'apierror'] = self.language(30618)
 
         return (video, status)
 
@@ -421,7 +422,7 @@ class YouTubePlayer():
                 self.login._httpLogin({"new":"true"})
                 result = self.getVideoPageFromYoutube(get)
             else:
-                self.utils.showMessage(self.language(30600), self.language(30622))
+                video[u"apierror"] = self.language(30622)
 
         if result[u"status"] != 200:
             self.common.log(u"Couldn't get video page from YouTube")
