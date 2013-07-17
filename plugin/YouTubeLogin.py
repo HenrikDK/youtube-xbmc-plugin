@@ -231,7 +231,7 @@ class YouTubeLogin():
                     return (False, 500)
 
                 new_part = self.common.parseDOM(ret["content"], "form", attrs={"name": "verifyForm"}, ret="action")
-                fetch_options = {"link": new_part[0], "url_data": url_data, "no-language-cookie": "true", "referer": ret["location"]}
+                fetch_options = {"link": new_part[0].replace("&amp;", "&"), "url_data": url_data, "no-language-cookie": "true", "referer": ret["location"]}
 
                 self.common.log("Part D: " + repr(fetch_options))
                 continue
@@ -305,18 +305,32 @@ class YouTubeLogin():
         return (galx, url_data)
 
     def _fillUserPin(self, content):
-        self.common.log(repr(content), 5)
-        smsToken = self.common.parseDOM(content, "input", attrs={"name": "smsToken"}, ret="value")
-        self.smsToken = smsToken
+        self.common.log(repr(content), 3)
+        form = self.common.parseDOM(content, "form", attrs={"name": "verifyForm"}, ret=True)
+        self.common.log("Form: " + repr(form), 0)
+
+        url_data = {}
+        for name in self.common.parseDOM(form, "input", ret="name"):
+            for val in self.common.parseDOM(form, "input", attrs={"name": name}, ret="value"):
+                url_data[name] = val
+
+        self.common.log("url_data: " + repr(form), 0)
+
+        #smsToken = self.common.parseDOM(form, "input", attrs={"name": "smsToken"}, ret="value")
+        if "smsToken" in url_data:
+            self.smsToken = url_data["smsToken"]
+        if "continue" in url_data:
+            url_data["continue"] = url_data["continue"].replace("&amp;", "&")
         userpin = self.common.getUserInputNumbers(self.language(30627))
 
-        if len(userpin) > 0:
-            url_data = {"smsToken": smsToken[0],
-                        "PersistentCookie": "yes",
-                        "smsUserPin": userpin,
-                        "smsVerifyPin": "Verify",
-                        "timeStmp": "",
-                        "secTok": ""}
+        if len(userpin) > 0: # continue, service, ltmpl, hl, timeStmp, smsToken, exp, smsUserPin, smsVerifyPin, PersistentCookie, 
+            url_data["smsUserPin"] = userpin
+            #url_data = {"smsToken": smsToken[0],
+            #            "PersistentCookie": "yes",
+            #            "smsUserPin": userpin,
+            #            "smsVerifyPin": "Verify",
+            #            "timeStmp": "",
+            #            "secTok": ""}
             self.common.log("Done: " + repr(url_data))
             return url_data
         else:
@@ -355,6 +369,7 @@ class YouTubeLogin():
         if len(SID) == 1 and len(login_info) == 1:
             status = 200
             self.settings.setSetting("login_cookies", repr(scookies))
+
 
         self.common.log("Done")
         return status

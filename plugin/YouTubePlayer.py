@@ -93,6 +93,7 @@ class YouTubePlayer():
         self.xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=listitem)
 
         if self.settings.getSetting("lang_code") != "0" or self.settings.getSetting("annotations") == "true":
+            self.common.log("BLAAAAAAAAAAAAAAAAAAAAAA: " + repr(self.settings.getSetting("lang_code")))
             self.subtitles.addSubtitles(video)
 
         if (get("watch_later") == "true" and get("playlist_entry_id")):
@@ -214,7 +215,7 @@ class YouTubePlayer():
             self.common.log(u"- construct_video_url failed, video_url not set")
             return video_url
 
-        if get("action") != "download":
+        if get("action") != "download" and video_url.find("rtmp") == -1:
             video_url += '|' + urllib.urlencode({'User-Agent':self.common.USERAGENT})
 
         self.common.log(u"Done")

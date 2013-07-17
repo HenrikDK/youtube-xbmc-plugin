@@ -88,8 +88,11 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         assert(len(oauth2_access_token) > 40)
 
     def generatePin(self, *args, **kwargs):
-        userpin = self.totp.at(time.time())
-        if userpin == self.lastpin or len(str(userpin)) < 6:
+        userpin = str(self.totp.at(time.time()))
+        while len(userpin) < 6:
+            userpin = "0" + userpin
+
+        if userpin == self.lastpin:
             time.sleep(15)
             return self.generatePin(args, kwargs)
         print "GENERATED PIN : " + str(userpin)

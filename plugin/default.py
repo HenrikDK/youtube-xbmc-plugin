@@ -18,11 +18,11 @@
 
 import sys
 import xbmc
-import xbmcplugin
-import xbmcaddon
 import xbmcgui
 import urllib2
+import xbmcaddon
 import cookielib
+import xbmcplugin
 try:
     import xbmcvfs
 except ImportError:
