@@ -22,7 +22,6 @@ import time
 import socket
 import urllib
 import urllib2
-#import chardet
 
 try:
     import simplejson as json
@@ -442,7 +441,7 @@ class YouTubeCore():
                 return ret_obj
 
             # This should be a call to self.login._httpLogin()
-            if self.settings.getSetting("cookies_saved") == "false":
+            if self.settings.getSetting("cookies_saved") != "true":
                 if isinstance(self.login, str):
                     self.login = sys.modules["__main__"].login
                 self.login._httpLogin()
@@ -456,7 +455,6 @@ class YouTubeCore():
 
             if cookie:
                 self.common.log("Setting cookie: " + cookie)
-                #request.add_header('Cookie', cookie)
 
             con = urllib2.urlopen(request)
 

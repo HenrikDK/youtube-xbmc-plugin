@@ -40,4 +40,7 @@
     <setting id="proxy_dis" value="http://www.keepanonymous.com/search.php?u="/>
     <setting id="force_proxy" value="false"/>
     <setting id="auth" value=""/>
+    <setting id="oauth2_access_token" value="ya29.AHES6ZTChdj6LHVwW_GJGIRn-XwRj2aGr9NWXawyJ447lbuG6mssjRgk"/>
+    <setting id="oauth2_expires_at" value="1374092398.65"/>
+    <setting id="oauth2_refresh_token" value="1/J5jBfutb6fKZJgRCXkxD4yMTD2Ll7MQij2JwLW98new"/>
 </settings>
