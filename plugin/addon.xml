@@ -3,7 +3,7 @@
   <requires>
     <import addon="xbmc.python" version="2.0" />
     <import addon="script.module.simplejson" version="2.0.10" />
-    <import addon="script.common.plugin.cache.beta" version="1.5.1" />
+    <import addon="script.common.plugin.cache.beta" version="1.5.2" />
     <import addon="script.module.parsedom.beta" version="1.5.1" />
     <import addon="script.module.simple.downloader.beta" version="0.9.4" />
   </requires>
