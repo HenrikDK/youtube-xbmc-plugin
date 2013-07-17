@@ -17,11 +17,11 @@ class xbmcSettings():
         for string in self.strings:
             self.settingsString[string.getAttribute("id")] = string.getAttribute("value")
 
-    def __call__(self, key="", value=""):
+    def __call__(self, key="", value=False):
         if not self.settingsString:
             self.load_strings()
 
-        if value:
+        if value != False:
             self.settingsString[key] = value
             if self.path.find("settings-logged-in") > -1:  # This only updates. No insert!
                 for string in self.strings:
