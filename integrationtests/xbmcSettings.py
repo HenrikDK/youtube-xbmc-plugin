@@ -21,7 +21,7 @@ class xbmcSettings():
         if not self.settingsString:
             self.load_strings()
 
-        if value:
+        if value != False:
             self.settingsString[key] = value
             if self.path.find("settings-logged-in") > -1:  # This only updates. No insert!
                 for string in self.strings:
