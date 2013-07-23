@@ -399,7 +399,7 @@ class YouTubeCore():
         if get("url_data"):
             url_data = get("url_data")
             url_data_encoded = {}
-            for k, v in text.iteritems():
+            for k, v in url_data.iteritems():
                 url_data_encoded[k] = unicode(v).encode('utf-8')
 
             request = urllib2.Request(link, urllib.urlencode(url_data_encoded))
