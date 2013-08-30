@@ -269,7 +269,7 @@ class YouTubeLogin():
 
         for name in self.common.parseDOM(content, "input", ret="name"):
             for val in self.common.parseDOM(content, "input", attrs={"name": name}, ret="value"):
-                url_data[name] = val
+                url_data[name] = self.common.makeAscii(val)
 
         self.common.log("Extracted url_data: " + repr(url_data), 0)
         url_data["Email"] = self.pluginsettings.userName()
@@ -287,7 +287,7 @@ class YouTubeLogin():
         url_data = {}
         for name in self.common.parseDOM(form, "input", ret="name"):
             for val in self.common.parseDOM(form, "input", attrs={"name": name}, ret="value"):
-                url_data[name] = val
+                url_data[name] = self.common.makeAscii(val)
 
         self.common.log("url_data: " + repr(form), 0)
 
