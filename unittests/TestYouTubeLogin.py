@@ -576,6 +576,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].common.parseDOM.side_effect = [["uilel", "dsh", "rmShown", "GALX"], ["value2"], ["value2"], ["value2"], ["value2"]]
         sys.modules["__main__"].language.return_value = "someTitle"
         sys.modules["__main__"].common.getUserInput.return_value = "somePword"
+        sys.modules["__main__"].common.makeAscii.return_value = "value2"
         login = YouTubeLogin()
         
         (galx, url_data) = login._fillLoginInfo({"content": "new", "new_url": "url"})
@@ -594,6 +595,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].common.parseDOM.side_effect = [["GALX"], [""]]
         sys.modules["__main__"].language.return_value = "someTitle"
         sys.modules["__main__"].common.getUserInput.return_value = "somePword"
+        sys.modules["__main__"].common.makeAscii.return_value = ""
         login = YouTubeLogin()
         
         (galx, url_data) = login._fillLoginInfo({"content": "new", "new_url": "url"})
@@ -635,6 +637,8 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].common.parseDOM.side_effect = [["form"], ["smsToken"], ["value2"]]
         sys.modules["__main__"].language.return_value = "someTitle"
         sys.modules["__main__"].common.getUserInputNumbers.return_value = "value3"
+        sys.modules["__main__"].common.makeAscii.return_value = "value2"
+
         login = YouTubeLogin()
         
         result = login._fillUserPin("new")
