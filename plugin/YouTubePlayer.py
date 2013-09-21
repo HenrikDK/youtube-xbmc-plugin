@@ -371,8 +371,12 @@ class YouTubePlayer():
 
     def decrypt_signature(self, s):
         ''' use decryption solution by Youtube-DL project '''
-        if len(s) == 92:
+        if len(s) == 93:
+            return s[86:29:-1] + s[88] + s[28:5:-1]
+        elif len(s) == 92:
             return s[25] + s[3:25] + s[0] + s[26:42] + s[79] + s[43:79] + s[91] + s[80:83]
+        elif len(s) == 91:
+            return s[84:27:-1] + s[86] + s[26:5:-1]
         elif len(s) == 90:
             return s[25] + s[3:25] + s[2] + s[26:40] + s[77] + s[41:77] + s[89] + s[78:81]
         elif len(s) == 89:
@@ -382,15 +386,15 @@ class YouTubePlayer():
         elif len(s) == 87:
             return s[6:27] + s[4] + s[28:39] + s[27] + s[40:59] + s[2] + s[60:]
         elif len(s) == 86:
-            return s[81:73:-1] + s[84] + s[72:58:-1] + s[0] + s[57:35:-1] + s[85] + s[34:0:-1]
+            return s[5:34] + s[0] + s[35:38] + s[3] + s[39:45] + s[38] + s[46:53] + s[73] + s[54:73] + s[85] + s[74:85] + s[53]
         elif len(s) == 85:
-            return s[83:34:-1] + s[0] + s[33:27:-1] + s[3] + s[26:19:-1] + s[34] + s[18:3:-1] + s[27]
+            return s[3:11] + s[0] + s[12:55] + s[84] + s[56:84]
         elif len(s) == 84:
             return s[81:36:-1] + s[0] + s[35:2:-1]
         elif len(s) == 83:
             return s[81:64:-1] + s[82] + s[63:52:-1] + s[45] + s[51:45:-1] + s[1] + s[44:1:-1] + s[0]
         elif len(s) == 82:
-            return s[1:19] + s[0] + s[20:68] + s[19] + s[69:82]
+            return s[80:73:-1] + s[81] + s[72:54:-1] + s[2] + s[53:43:-1] + s[0] + s[42:2:-1] + s[43] + s[1] + s[54]
         elif len(s) == 81:
             return s[56] + s[79:56:-1] + s[41] + s[55:41:-1] + s[80] + s[40:34:-1] + s[0] + s[33:29:-1] + s[34] + s[28:9:-1] + s[29] + s[8:0:-1] + s[9]
         elif len(s) == 80:
