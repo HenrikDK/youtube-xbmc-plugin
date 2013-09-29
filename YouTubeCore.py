@@ -397,6 +397,7 @@ class YouTubeCore():
             return ret_obj
 
         if get("url_data"):
+            params["url_data"] = dict((k, v.encode('utf-8')) for (k, v) in get("url_data").items())
             request = urllib2.Request(link, urllib.urlencode(get("url_data")))
             request.add_header('Content-Type', 'application/x-www-form-urlencoded')
         elif get("request", "false") == "false":
