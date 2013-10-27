@@ -404,13 +404,16 @@ class YouTubePlayer():
         else:
             self.common.log(u'Unable to decrypt signature, key length %d not supported; retrying might work' % (len(s)))
 
-    def getVideoPageFromYoutube(self, get):
+    def getVideoPageFromYoutube(self, get, has_verified = False):
         login = "false"
+        verify = ""
 
         if self.pluginsettings.userHasProvidedValidCredentials():
             login = "true"
+            if has_verified:
+                verify = u"&has_verified=1"
 
-        page = self.core._fetchPage({u"link": self.urls[u"video_stream"] % get(u"videoid"), "login": login})
+        page = self.core._fetchPage({u"link": (self.urls[u"video_stream"] % get(u"videoid")) + verify, "login": login})
         self.common.log("Step1: " + repr(page["content"].find("ytplayer")))
 
         if not page:
@@ -431,8 +434,7 @@ class YouTubePlayer():
         if self.isVideoAgeRestricted(result):
             self.common.log(u"Age restricted video")
             if self.pluginsettings.userHasProvidedValidCredentials():
-                self.login._httpLogin({"new":"true"})
-                result = self.getVideoPageFromYoutube(get)
+                result = self.getVideoPageFromYoutube(get, True)
             else:
                 video[u"apierror"] = self.language(30622)
 
