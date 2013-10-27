@@ -759,7 +759,6 @@ class YouTubeCore():
         result = 1
 
         for tmp in self.common.parseDOM(node, "yt:duration", ret="seconds"):
-            tmp = int(tmp) / 60
             if tmp:
                 result = tmp
 
