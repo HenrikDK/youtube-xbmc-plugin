@@ -157,7 +157,7 @@ class TestYouTubeCore(BaseTestCase.BaseTestCase):
     def test_getCategoriesFolderInfo_should_set_item_params_correctly_for_contacts_feed(self):
         input = self.readTestInput("categories-test.xml", False)
         core = YouTubeCore()
-        sys.modules["__main__"].common.parseDOM.side_effect = [["entries"], [], ["Film & Animation"], ["Film"]]
+        sys.modules["__main__"].common.parseDOM.side_effect = [["entries"], ["Film & Animation"], ["Film"]]
         sys.modules["__main__"].common.replaceHTMLCodes.side_effect = ["Film & Animation", "Film"]
 
         result = core.getCategoriesFolderInfo(input, {"feed":"feed_categories"})
@@ -170,29 +170,19 @@ class TestYouTubeCore(BaseTestCase.BaseTestCase):
 
     def test_getCategoriesFolderInfo_should_use_parseDOM_to_look_for_categories(self):
         core = YouTubeCore()
-        sys.modules["__main__"].common.parseDOM.side_effect = [["entries"], [], ["label"], ["term"]]
+        sys.modules["__main__"].common.parseDOM.side_effect = [["entries"], ["label"], ["term"]]
 
         core.getCategoriesFolderInfo("xml", {})
 
         sys.modules["__main__"].common.parseDOM.assert_any_call('entries', 'atom:category', ret="label")
 
-    def test_getCategoriesFolderInfo_should_use_parseDOM_to_look_for_deprecated_categories(self):
-        core = YouTubeCore()
-        sys.modules["__main__"].common.parseDOM.side_effect = [["entries"], ["dep"]]
-
-        core.getCategoriesFolderInfo("xml", {})
-
-        sys.modules["__main__"].common.parseDOM.assert_any_call('entries', 'yt:deprecated')
-
     def test_getCategoriesFolderInfo_should_skip_deprecated_categories(self):
-        sys.modules["__main__"].common.parseDOM.side_effect = [["entries"], ["depcrecated"], ["label"], ["term"]]
+        sys.modules["__main__"].common.parseDOM.side_effect = [["yt:deprecated"], ["label"], ["term"]]
         core = YouTubeCore()
 
         result = core.getCategoriesFolderInfo("xml", {})
 
-        calls = sys.modules["__main__"].common.parseDOM.call_args_list #assert_any_call('entries', 'yt:deprecated')
-        print repr(calls)
-        assert(len(calls) == 2)
+        assert(len(result) == 0)
 
     def test_getFolderInfo_should_use_getElementsByTagName_to_look_for_link_and_entries(self):
         sys.modules["__main__"].common.parseDOM.side_effect = [["entry"], [""], ["title"], ["published"], ["id"]]
@@ -1132,13 +1122,12 @@ class TestYouTubeCore(BaseTestCase.BaseTestCase):
         result = core.getVideoInfo(self.readTestInput("youtubeFavoritesFeed.xml", False))
 
         print repr(result)
-        #assert(result[0]["Overlay"] == 7) # This is now mocked
         assert(result[0]["editid"] == 'some_edit_id')
         assert(result[0]["Title"] == "Aurora seen from the ISS in Orbit")
         assert(result[0]["playlist_entry_id"] == 'some_edit_id')
         assert(result[0]["Rating"] > 4.9)
         assert(result[0]["videoid"] == 'ogtKe7N05F0')
-        assert(result[0]["Duration"] == 1)
+        assert(result[0]["Duration"] == "35")
         assert(result[0]["Genre"] == "Science & Technology")
         assert(result[0]["Studio"] == "isoeph")
         assert(result[0]["Date"] == "29-09-2011")
@@ -1502,7 +1491,7 @@ class TestYouTubeCore(BaseTestCase.BaseTestCase):
         result = core.getVideoDuration("xml")
 
         print repr(result)
-        assert(result == 2)
+        assert(result == "120")
 
     def test_getVideoRating_should_call_parseDOM_to_find_rating(self):
         sys.modules[ "__main__" ].common.parseDOM.return_value = []

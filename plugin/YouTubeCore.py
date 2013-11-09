@@ -180,9 +180,10 @@ class YouTubeCore():
         folders = []
         for node in entries:
             folder = {}
-
+            print repr(node)
             if 'yt:deprecated' in node:
                 continue
+
             title = self.common.parseDOM(node, "atom:category", ret="label")[0]
 
             if title:
