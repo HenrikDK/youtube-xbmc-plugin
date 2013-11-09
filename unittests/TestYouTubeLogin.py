@@ -466,7 +466,7 @@ class TestYouTubeLogin(BaseTestCase.BaseTestCase):
         result = login._httpLogin({"new":"true"})
         
         assert(sys.modules["__main__"].core._fetchPage.call_count == 2)
-        sys.modules["__main__"].core._fetchPage.assert_called_with({'referer': 'here', 'link': 'Login', 'url_data': 'some_url_data'})
+        sys.modules["__main__"].core._fetchPage.assert_called_with({'referer': 'http://www.mock.com', 'link': 'Login', 'url_data': 'some_url_data'})
         
     def test_httpLogin_should_use_parseDOM_to_find_smsToken(self):
         sys.modules["__main__"].core._findErrors.return_value = False
