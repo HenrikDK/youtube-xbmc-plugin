@@ -936,9 +936,9 @@ class TestYouTubeNavigation(BaseTestCase.BaseTestCase):
         sys.modules["__main__"].utils.getThumbnail.return_value = "some_image_path"
         navigation = YouTubeNavigation()
         navigation.addVideoContextMenuItems = Mock()
-        
+
         navigation.addVideoListItem({"scraper": "scraper_music"}, {"Title": "some_title", "icon": "some_icon", "thumbnail": "some_thumbnail"})
-        
+
         sys.modules["__main__"].utils.getThumbnail.assert_called_with("music")
 
     def test_addVideoListItem_should_call_xbmcgui_ListItem_to_fetch_xbmc_listitem_object(self):
