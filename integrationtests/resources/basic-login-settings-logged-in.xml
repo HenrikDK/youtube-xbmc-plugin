@@ -36,12 +36,12 @@
     <setting id="uploads" value="true"/>
     <setting id="user_password" value="yt tester"/>
     <setting id="username" value="logintester@tobiasussing.dk"/>
-    <setting id="oauth2_access_token" value="value"/>
+    <setting id="oauth2_access_token" value="ya29.IQBvan74CU8i8RsAAACxv7tU5qVjyJ8wBGSnGJRKMSJowVW04lUKopiKUorBXg"/>
     <setting id="watch_later" value="true"/>
     <setting id="proxy_dis" value="http://www.keepanonymous.com/search.php?u="/>
     <setting id="force_proxy" value="false"/>
     <setting id="auth" value=""/>
-    <setting id="oauth2_access_token" value="ya29.AHES6ZTChdj6LHVwW_GJGIRn-XwRj2aGr9NWXawyJ447lbuG6mssjRgk"/>
-    <setting id="oauth2_expires_at" value="1374092398.65"/>
-    <setting id="oauth2_refresh_token" value="1/J5jBfutb6fKZJgRCXkxD4yMTD2Ll7MQij2JwLW98new"/>
+    <setting id="oauth2_access_token" value="ya29.IQBvan74CU8i8RsAAACxv7tU5qVjyJ8wBGSnGJRKMSJowVW04lUKopiKUorBXg"/>
+    <setting id="oauth2_expires_at" value="1401025550.28"/>
+    <setting id="oauth2_refresh_token" value="1/htetTJ0fSIfNSHan2dsxCcTDATWEtLbiZl8FX1Clo4U"/>
 </settings>

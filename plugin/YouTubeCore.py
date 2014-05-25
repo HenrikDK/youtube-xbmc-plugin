@@ -544,6 +544,25 @@ class YouTubeCore():
             self.common.log("4")
             error = self.common.parseDOM(ret['content'], "div", attrs={"id": "watch7-player-age-gate-content"})
 
+        if len(error) == 0:
+            self.common.log("5")
+            if len(self.common.parseDOM(ret['content'], "input", attrs={"id": "send-code-button"})):
+                error = [self.language(30630)]
+
+        if len(error) == 0:
+            self.common.log("6")
+            if len(self.common.parseDOM(ret['content'], "h1", attrs={"id": "login-challenge-heading"})):
+                error = [self.language(30630)]
+
+        if len(error) == 0:
+            self.common.log("7")
+            if len(self.common.parseDOM(ret['content'], "h2", attrs={"class": "smsauth-interstitial-heading"})):
+                error = [self.language(30630)]
+
+        if len(error) == 0:
+            self.common.log("8")
+            error = self.common.parseDOM(ret['content'], "span", attrs={"class": "error-msg"})
+
         if len(error) > 0:
             self.common.log("Found error: " + repr(error))
             error = self.common.stripTags(error[0])
