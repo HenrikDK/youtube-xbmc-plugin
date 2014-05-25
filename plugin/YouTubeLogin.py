@@ -167,7 +167,7 @@ class YouTubeLogin():
             self.common.log("Use saved cookies")
             return (self.settings.getSetting("cookies_saved"), 200)
 
-        fetch_options = {"link": get("link", "http://www.youtube.com/")}
+        fetch_options = {"link": get("link", "http://www.youtube.com/"), "no-language-cookie": "true"}
 
         step = 0
         galx = ""

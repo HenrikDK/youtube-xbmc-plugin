@@ -435,7 +435,7 @@ class YouTubeCore():
         else:
             request.add_header('User-Agent', self.common.USERAGENT)
 
-            if get("no-language-cookie", "false") == "false" and False:
+            if get("no-language-cookie", "false") == "true":
                 cookie += "PREF=f1=50000000&hl=en; "
 
         if get("login", "false") == "true":
@@ -461,7 +461,7 @@ class YouTubeCore():
 
             if cookie:
                 self.common.log("Setting cookie: " + cookie)
-
+                request.add_header('Cookie', cookie)
             con = urllib2.urlopen(request)
 
             inputdata = con.read()
