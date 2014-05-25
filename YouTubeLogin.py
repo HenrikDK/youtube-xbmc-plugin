@@ -167,7 +167,7 @@ class YouTubeLogin():
             self.common.log("Use saved cookies")
             return (self.settings.getSetting("cookies_saved"), 200)
 
-        fetch_options = {"link": get("link", "http://www.youtube.com/")}
+        fetch_options = {"link": get("link", "http://www.youtube.com/"), "no-language-cookie": "true"}
 
         step = 0
         galx = ""
@@ -188,7 +188,9 @@ class YouTubeLogin():
             fetch_options = False
 
             # Check if we are logged in.
-            nick = self.common.parseDOM(ret["content"], "p", attrs={"class": "masthead-expanded-acct-sw-id2"})
+#            nick = self.common.parseDOM(ret["content"], "p", attrs={"class": "masthead-expanded-acct-sw-id2"})
+            nick = self.common.parseDOM(ret["content"], "span", attrs={"id": "yt-masthead-user-displayname"})
+
 
             # Check if there are any errors to report
             errors = self.core._findErrors(ret, silent=True)
@@ -235,8 +237,10 @@ class YouTubeLogin():
                 if len(url_data) == 0:
                     return (False, 500)
 
-                new_part = self.common.parseDOM(ret["content"], "form", attrs={"name": "verifyForm"}, ret="action")
-                fetch_options = {"link": new_part[0].replace("&amp;", "&"), "url_data": url_data, "referer": ret["location"]}
+                new_part = self.common.parseDOM(ret["content"], "form", attrs={"id": "gaia_secondfactorform"}, ret="action")
+                t_url = ret["new_url"]
+                t_url = t_url[:t_url.find("/", 10) + 1] + new_part[0].replace("&amp;", "&")
+                fetch_options = {"link": t_url, "url_data": url_data, "referer": ret["new_url"]}
 
                 self.common.log("Part D: " + repr(fetch_options))
                 continue
@@ -269,7 +273,7 @@ class YouTubeLogin():
 
         for name in self.common.parseDOM(content, "input", ret="name"):
             for val in self.common.parseDOM(content, "input", attrs={"name": name}, ret="value"):
-                url_data[name] = val
+                url_data[name] = self.common.makeAscii(val)
 
         self.common.log("Extracted url_data: " + repr(url_data), 0)
         url_data["Email"] = self.pluginsettings.userName()
@@ -282,12 +286,18 @@ class YouTubeLogin():
 
     def _fillUserPin(self, content):
         self.common.log("")
-        form = self.common.parseDOM(content, "form", attrs={"name": "verifyForm"}, ret=True)
+        #form = self.common.parseDOM(content, "form", attrs={"id": "gaia_secondfactorform"}, ret=True)
+        form = self.common.parseDOM(content, "form", attrs={"id": "gaia_secondfactorform"}, ret=True)
 
         url_data = {}
         for name in self.common.parseDOM(form, "input", ret="name"):
-            for val in self.common.parseDOM(form, "input", attrs={"name": name}, ret="value"):
-                url_data[name] = val
+            if name not in ["smsSend", "retry"]:
+                #for val in self.common.parseDOM(form, "input", attrs={"name": name}, ret="value"):
+                #    url_data[name] = self.common.makeAscii(val)
+             if name not in ["smsSend", "retry"]:
+                 for val in self.common.parseDOM(form, "input", attrs={"name": name}, ret="value"):
+                     url_data[name] = self.common.makeAscii(val)
+                
 
         self.common.log("url_data: " + repr(form), 0)
 
