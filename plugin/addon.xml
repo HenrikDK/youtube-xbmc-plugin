@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
-<addon id="plugin.video.youtube.beta" name="YouTube Beta" provider-name="TheCollective" version="4.4.9">
+<addon id="plugin.video.youtube.beta" name="YouTube Beta" provider-name="TheCollective" version="3.4.9">
   <requires>
     <import addon="xbmc.python" version="2.0" />
     <import addon="script.module.simplejson" version="2.0.10" />
